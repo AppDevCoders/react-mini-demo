@@ -1,28 +1,43 @@
 import React, { useMemo } from "react";
+import { twMerge } from "tailwind-merge";
+
+export enum Orientations {
+  vertical = "vertical",
+  horizontal = "horizontal",
+}
 
 type ContainerProps = {
-  orientacion?: "vertical" | "horizontal";
+  label: string;
+  orientation?: Orientations;
   children?: React.ReactNode; // JSX.Element
 };
 
-const Container: React.FC<ContainerProps> = ({
-  orientacion = "vertical",
+export const Container: React.FC<ContainerProps> = ({
+  label = "Title",
+  orientation = Orientations.vertical,
   children,
 }) => {
-  const style = useMemo(() => {
-    return orientacion === "vertical"
-      ? "flex flex-col w-full p-[32px] bg-white rounded-[15rem] border-4 border-red-500 text-blue-500"
-      : "flex flex-row w-full p-[32px] bg-white rounded-[15rem] border-4 border-red-500 text-blue-500";
-  }, [orientacion]);
-
-  const x = <div>hola</div>;
+  const labelElement = useMemo(() => {
+    return (
+      <div className="flex flex-row w-full justify-center text-xl">{label}</div>
+    );
+  }, [label]);
 
   return (
-    <div className={style}>
-      {children}
-      {x}
+    <div
+      className={
+        "flex flex-col w-full p-[32px] gap-2 bg-white rounded-[2rem] border-4 border-red-500 text-blue-500"
+      }
+    >
+      {labelElement}
+      <div
+        className={twMerge(
+          "flex w-full gap-2",
+          orientation === "vertical" ? "flex-col" : "flex-row"
+        )}
+      >
+        {children}
+      </div>
     </div>
   );
 };
-
-export default Container;

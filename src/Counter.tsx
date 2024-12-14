@@ -2,20 +2,23 @@ import { useCounter } from "./useCounter";
 
 type CounterProps = {
   inc?: number;
+  label?: string;
 };
 
-const Counter: React.FC<CounterProps> = ({ inc = 1 }) => {
-  const { valor, increment } = useCounter();
+const Counter: React.FC<CounterProps> = ({ inc = 1, label = "Change" }) => {
+  const { value, increment } = useCounter();
 
   const handleClick = () => {
     increment(inc);
   };
 
   return (
-    <>
-      <div className="bg-slate-100 text-cyan-500">{valor}</div>
-      <button onClick={handleClick}>Cambiar</button>
-    </>
+    <div className="flex flex-col w-full gap-2">
+      <div className="bg-slate-100 text-gray-500">{value}</div>
+      <button className="bg-blue-500 text-white" onClick={handleClick}>
+        {label}
+      </button>
+    </div>
   );
 };
 
